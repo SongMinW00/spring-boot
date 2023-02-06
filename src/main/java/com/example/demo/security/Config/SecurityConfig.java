@@ -1,14 +1,9 @@
 package com.example.demo.security.Config;
-import com.example.demo.Service.UserService;
 import com.example.demo.constant.ServiceURIManagement;
-
 import com.example.demo.security.common.FormAuthenticationDetailsSource;
 import com.example.demo.security.handler.CustomAccessDeniedHandler;
 import com.example.demo.security.provider.CustomAuthenticationProvider;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,19 +12,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 
@@ -39,24 +26,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{ // 2
     @Autowired private FormAuthenticationDetailsSource formAuthenticationDetailsSource;
     /* 로그인 성공 핸들러 의존성 주입 */
     @Autowired private AuthenticationSuccessHandler authenticationSuccessHandler;
-
     /* 로그인 실패 핸들러 의존성 주입 */
     @Autowired private AuthenticationFailureHandler authenticationFailureHandler;
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer(){
-//        return (web -> web.ignoring().antMatchers("/resources/**"));
-//    }
     @Bean
     /* 시큐리티가 로그인 과정에서 password를 가로챌때 어떤 해쉬로 암호화 했는지 확인 */
     public PasswordEncoder passwordEncoder() {     /* Password Hash 암호화 기능 사용을 위한 객체 주입 */
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
     @Bean
     public AuthenticationProvider authenticationProvider(){
         return new CustomAuthenticationProvider();
     }
-
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
@@ -65,11 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{ // 2
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        /* 로그인 인증수행시 권한과 아이디 비밀번호등 일치하는지 검사 */
         auth.authenticationProvider(authenticationProvider());
     }
-
     @Override
     public void configure(WebSecurity web) throws Exception {
+        /* 보안검사 필요없는거 여기다 추가 */
         web.ignoring().antMatchers("/css/**","/js/**","/assets/**", "/lib/**","/template/content/**");
     }
     @Override
@@ -89,7 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{ // 2
                 .passwordParameter("password")
                 .loginProcessingUrl("/login_proc")
                 .authenticationDetailsSource(formAuthenticationDetailsSource)
-//                .usernameParameter("username")
                 .defaultSuccessUrl("/")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
@@ -97,8 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{ // 2
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler());
-
-
     }
 
 

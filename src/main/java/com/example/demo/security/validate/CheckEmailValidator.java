@@ -1,12 +1,9 @@
 package com.example.demo.security.validate;
-
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-
 @RequiredArgsConstructor
 @Component
 public class CheckEmailValidator extends AbstractValidator<SignUpRequestDTO> {
