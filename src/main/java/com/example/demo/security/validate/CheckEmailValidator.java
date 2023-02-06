@@ -12,6 +12,7 @@ public class CheckEmailValidator extends AbstractValidator<SignUpRequestDTO> {
     protected void doValidate(SignUpRequestDTO dto, Errors errors){
         if(userRepository.existsByEmail(dto.getEmail())){
             errors.rejectValue("email", "이메일 중복 오류", "이미 사용중인 이메일 입니다. ");
+
         }
     }
 }
