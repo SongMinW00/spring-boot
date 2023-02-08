@@ -15,6 +15,8 @@ import org.springframework.validation.FieldError;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 @RequiredArgsConstructor
 @Service
@@ -34,11 +36,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(member);
     }
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         /* Logout 하려는 이용자 정보가 담긴 인증 객체 가져오기 */
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {   /* 인증 객체가 Null이 아닌 경우 즉, 이용자가 인증한 상태인 경우 */
             /* SecurityContextLogoutHandler 이용하여 Logout 처리 */
+
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
     }

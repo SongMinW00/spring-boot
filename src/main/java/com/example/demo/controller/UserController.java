@@ -96,9 +96,11 @@ public class UserController {
         return "content/login";
     }
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         userService.logout(request, response);
-        return "redirect:/";
+
+        return "content/login";
     }
     @GetMapping("/denied")
     public String accessDenied(
