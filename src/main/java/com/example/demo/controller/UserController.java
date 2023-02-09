@@ -33,10 +33,16 @@ public class UserController {
         binder.addValidators(checkEmailValidator);
     }
     /* 유저의 마이페이지 매핑 */
-    @GetMapping(ServiceURIManagement.NOW_VERSION + "/user/my-page")
-    public String myPage() throws Exception{
+    @GetMapping("/user/my-page")
+    public String myPage(){
         return "/content/user/my-page";
     }
+
+    @GetMapping("/thymeleaf/ex")
+    public String thymeleafExample(){
+        return "thymeleafEx";
+    }
+
     /* 메인페이지 매핑 */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(){
