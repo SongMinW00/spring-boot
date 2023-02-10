@@ -41,7 +41,7 @@
                     MENU
                 </button>
                 <ul class="dropdown-menu">
-
+                    <li><button class="dropdown-item" sec:authorize="isAuthenticated()" type="button" th:onclick="|location.href='@{/user/board_write}'|">운동꿀팁전수!</button></li>
                     <li><button class="dropdown-item" type="button">요즘 HOT한 운동</button></li>
                     <li><button class="dropdown-item" type="button">너에게 딱맞는 운동</button></li>
                     <li><button class="dropdown-item" type="button">운동 소개 및 꿀팁!</button></li>
@@ -49,16 +49,5 @@
             </div>
         </div>
     </nav>
-
-
-    <!-- Header-->
-<!--    <header class="bg-dark py-5">-->
-<!--        <div class="container px-4 px-lg-5 my-5">-->
-<!--            <div class="text-center text-white">-->
-<!--                <h1 class="display-4 fw-bolder">Let's Go-Book</h1>-->
-<!--                <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </header>-->
 </div>
 </html>

@@ -38,21 +38,12 @@ public class UserController {
         return "/content/user/my-page";
     }
 
-    @GetMapping("/thymeleaf/ex")
-    public String thymeleafExample(){
-        return "thymeleafEx";
-    }
-
-    /* 메인페이지 매핑 */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(){
-        return "content/index";
-    }
     /* 회원가입페이지 매핑 */
     @RequestMapping(value="/register", method = RequestMethod.GET)
     public String register(){
         return "content/register";
     }
+
     /* 회원가입하고 회원가입 정보를 보호하기 위해 POST 매핑 */
     @PostMapping(value="/register")
     // @Valid 를 통해 데이터가 전달되는 형식이 유효한지 검사
