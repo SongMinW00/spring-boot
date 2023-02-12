@@ -28,8 +28,7 @@
                     <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/register}">Register</a></li>
                     <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" sec:authentication="name" th:href="@{/user/my-page}" >님. 반갑습니다.</a> </li>
                     <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" >로그아웃</a> </li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/info}">내정보</a></li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">어드민</a></li>
+                    <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/config}">어드민</a></li>
 
                 </ul>
 

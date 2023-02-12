@@ -35,13 +35,13 @@ public class UserController {
     /* 유저의 마이페이지 매핑 */
     @GetMapping("/user/my-page")
     public String myPage(){
-        return "/content/user/my-page";
+        return "content/user/my-page";
     }
 
     /* 회원가입페이지 매핑 */
     @RequestMapping(value="/register", method = RequestMethod.GET)
     public String register(){
-        return "content/register";
+        return "content/base/register";
     }
 
     /* 회원가입하고 회원가입 정보를 보호하기 위해 POST 매핑 */
@@ -64,7 +64,7 @@ public class UserController {
                 /* get() 함수를 통해 key 에 해당하는 value 를 가져옴 value 가 에러메시지니까 해당 오류 필드에 에러메시지 넣겠다.  */
                 model.addAttribute(key, validatorResult.get(key));
             }
-            return "content/register";
+            return "content/base/register";
         }
         if(!signUpRequestDTO.getPassword().equals(signUpRequestDTO.getPassword2())){
             bindingResult.rejectValue("password2", "passwordInCorrect", "위의 패스워드와 일치하지 않습니다. ");
@@ -73,7 +73,7 @@ public class UserController {
                 /* 이 행위를 통해 에러메시지를 화면에 보여주니까 다시 Map 을 가져와서 에러메시지 출력 */
                 model.addAttribute(key, validatorResult.get(key));
             }
-            return "content/register";
+            return "content/base/register";
         }
         /* 회원가입 수행 */
         userService.joinUser(signUpRequestDTO);
@@ -82,7 +82,7 @@ public class UserController {
         PrintWriter out = response.getWriter();
         out.println("<script>alert('계정이 등록 되었습니다. 다시 로그인 해주세요.');</script>");
         out.flush();
-        return "content/login";
+        return "content/base/login";
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error,
@@ -90,21 +90,25 @@ public class UserController {
                         Model model){
         /* 로그인 수행시 에러메시지, 오류 예외, 보여질 모델을 매개변수로 설정 */
         userService.login(error, exception, model);
-        return "content/login";
+        return "content/base/login";
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         userService.logout(request, response);
 
-        return "content/login";
+        return "content/base/login";
     }
     @GetMapping("/denied")
     public String accessDenied(
             @RequestParam(value = "exception", required = false) String exception,
-            Model model) {
-        userService.accessDenied(exception, model);
-        return "content/error/denied";
+            Model model, HttpServletResponse response) throws IOException {
+        userService.accessDenied(exception, model, response);
+        return "error/denied";
+    }
+    @GetMapping("/admin/config")
+    public String adminconfig(){
+        return "content/admin/config";
     }
 //    @GetMapping("/list")
 //    public String list(Model model){

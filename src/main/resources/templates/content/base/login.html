@@ -20,6 +20,9 @@
         <div class="form_container">
             <form name="login_form" th:action="@{/login_proc}" method="post">
                 <input type="hidden" th:value="secret" name="secret_key" />
+                <div th:if="${#request.getParameter('expire')}" style="color: red; text-align: center;">
+                    새로운 곳에서 로그인 시도되었습니다.
+                </div>
                 <div class="form_title_div">
                     <p class="form_title_p">로그인</p>
                 </div>

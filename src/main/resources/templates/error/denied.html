@@ -28,6 +28,8 @@
         </div>
     </div>
 </div>
-<div th:replace="layout/footer::footer"></div>
+<div th:replace="fragments/header::header"></div>
+<!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
+<div th:replace="fragments/footer::footer"></div>
 </body>
 </html>

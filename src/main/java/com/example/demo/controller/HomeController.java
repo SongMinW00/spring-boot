@@ -12,7 +12,7 @@ public class HomeController {
     /* 메인페이지 매핑 */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(){
-        return "content/index";
+        return "content/base/index";
     }
     /* thymeleaf 예시 페이지 */
     @GetMapping("/thymeleaf/ex")

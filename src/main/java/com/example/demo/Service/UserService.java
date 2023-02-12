@@ -10,6 +10,6 @@ public interface UserService {
     void joinUser(SignUpRequestDTO signUpRequestDTO);
     void logout(HttpServletRequest request, HttpServletResponse response) throws IOException;
     void login(String error, String exception, Model model);
-    void accessDenied(String exception, Model model);
+    void accessDenied(String exception, Model model, HttpServletResponse response) throws IOException;
     Map<String, String> validateHandling(Errors errors);
 }

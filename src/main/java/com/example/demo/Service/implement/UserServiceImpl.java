@@ -53,11 +53,22 @@ public class UserServiceImpl implements UserService {
 
     }
     @Override
-    public void accessDenied(String exception, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
-        model.addAttribute("username", member.getUsername());
-        model.addAttribute("exception", exception);
+    public void accessDenied(String exception, Model model, HttpServletResponse response) throws IOException {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Member member = (Member) authentication.getPrincipal();
+            model.addAttribute("username", member.getUsername());
+            model.addAttribute("exception", exception);
+        } catch (ClassCastException e){
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('접근권한이 없습니다.'); history.go(-1);</script>");
+            out.flush();
+        }
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            Member member = (Member) authentication.getPrincipal();
+//            model.addAttribute("username", member.getUsername());
+//            model.addAttribute("exception", exception);
     }
     // 회원가입시 유효성 체크
     @Transactional // DB에 접근, 일련의 작업들을 묶어서 하나의 단위로 처리할 때
