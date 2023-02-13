@@ -21,7 +21,7 @@
             <form name="login_form" th:action="@{/login_proc}" method="post">
                 <input type="hidden" th:value="secret" name="secret_key" />
                 <div th:if="${#request.getParameter('expire')}" style="color: red; text-align: center;">
-                    새로운 곳에서 로그인 시도되었습니다.
+                    새로운 곳에서 로그인이 시도되었습니다.
                 </div>
                 <div class="form_title_div">
                     <p class="form_title_p">로그인</p>
@@ -50,9 +50,6 @@
                     </div>
                 </div>
                 <div style="height: 10px;"></div>
-                <!-- 로그인 상태 유지 체크박스 -->
-                <input class="form-check-input" type="checkbox" name="remember-me" id="remember-me" />
-                <a>로그인상태 유지</a>
                 <div>
                     <button type="submit" class="form_submit_button">Login</button>
 

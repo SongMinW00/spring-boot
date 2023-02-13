@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    관리자페이지
-</head>
-<body>
+    <meta charset="utf-8" />
+    <title>관리자 페이지</title>
 
-<div class="container">
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!--/* css */-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<div th:replace="fragments/header::header"></div>
+<body id="page-top">
+
+<div class="admin_page">
     <div class="row align-items-start">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <div style="padding-top:10px;" class="nav flex-column nav-pills" aria-orientation="vertical">
-                            <a th:href="@{/}" style="margin:5px;" class="nav-link active">대시보드</a>
-                            <a th:href="@{/api/v1/user/my-page}" style="margin:5px;" class="nav-link text-primary">마이페이지</a>
-                            <a th:href="@{/api/v1/user/messages}" style="margin:5px;" class="nav-link text-primary">메시지</a>
-                            <a th:href="@{/api/v1/admin/config}" style="margin:5px;" class="nav-link text-primary">환경설정</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div style="padding-top:50px;"  class="col">
+
+        <div style="padding-top:300px;"  class="col">
             <div class="container text-center">
                 <h1 class="text-primary">여기는 관리자페이지 입니다.</h1>
             </div>
         </div>
     </div>
 </div>
-
+<div th:replace="fragments/footer::footer"></div>
+<script src="/js/scripts.js"></script>
 </body>
 </html>

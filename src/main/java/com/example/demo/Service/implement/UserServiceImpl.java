@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
                 .username(signUpRequestDTO.getUsername())
                 .password(passwordEncoder.encode(signUpRequestDTO.getPassword()))
                 .email(signUpRequestDTO.getEmail())
-                .role(signUpRequestDTO.getRole())
                 .build();
+        signUpRequestDTO.setRole("ROLE_USER");
         userRepository.save(member);
     }
     @Override
@@ -65,10 +65,6 @@ public class UserServiceImpl implements UserService {
             out.println("<script>alert('접근권한이 없습니다.'); history.go(-1);</script>");
             out.flush();
         }
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            Member member = (Member) authentication.getPrincipal();
-//            model.addAttribute("username", member.getUsername());
-//            model.addAttribute("exception", exception);
     }
     // 회원가입시 유효성 체크
     @Transactional // DB에 접근, 일련의 작업들을 묶어서 하나의 단위로 처리할 때

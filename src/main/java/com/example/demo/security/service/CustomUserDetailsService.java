@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
@@ -21,9 +22,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (!member.isPresent()) {     /* Data Base에 SignIn 요청 이용자 ID가 존재하지 않을 경우 */
             throw new UsernameNotFoundException("해당 이용자가 존재하지 않아요 🥲");
         }
+        if(Objects.equals(member.get().getUsername(), "admin")){
+            Member result = member.get();
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            return new CustomUserDetails(result, roles);
+        }
         Member result = member.get();
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(result.getRole()));
+        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new CustomUserDetails(result, roles);
     }
 }

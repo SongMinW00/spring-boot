@@ -11916,6 +11916,13 @@ input::placeholder {
     background-attachment: fixed;
     height: -webkit-fill-available;
 }
+
+.admin_page {
+    background-image: url('/../assets/img/admin_page.gif');
+    background-size: cover;
+    background-attachment: fixed;
+    height: -webkit-fill-available;
+}
 /* footer 하단 고정 [S] */
 html, body {
     margin: 0;
