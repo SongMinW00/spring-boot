@@ -1,8 +1,8 @@
 package com.example.demo.security.Config;
-import com.example.demo.constant.ServiceURIManagement;
 import com.example.demo.security.common.FormAuthenticationDetailsSource;
 import com.example.demo.security.handler.CustomAccessDeniedHandler;
 import com.example.demo.security.provider.CustomAuthenticationProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -28,11 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 @EnableWebSecurity // 1
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
     @Autowired
     private FormAuthenticationDetailsSource formAuthenticationDetailsSource;

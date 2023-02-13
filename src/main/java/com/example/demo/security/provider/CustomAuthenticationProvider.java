@@ -29,7 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (secretKey == null || !"secret".equals(secretKey)) {     /* 인증 요청 이용자가 보낸 값 중 secretkey가 없거나, 해당 내용이 secret이 아닐 경우 */
             throw new InsufficientAuthenticationException("유효하지 않은 Secret Key가 전달 되었습니다!");
         }
-        return new UsernamePasswordAuthenticationToken(userDetails.getMember().getUsername(), null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getMember(), null, userDetails.getAuthorities());
     }
     @Override
     public boolean supports(Class<?> authentication) {  /* authentication 객체 Type과 CustomAuthenticationProvider에서 이용하고자 하는 Token 값이 일치하는지 확인하고, 인증 처리를 할 수 있도록 구현 */

@@ -11903,6 +11903,19 @@ input::placeholder {
 
 }
 
+.deny_page {
+    background-image: url('/../assets/img/deny_page.gif');
+    background-size: cover;
+    background-attachment: fixed;
+    height: -webkit-fill-available;
+}
+
+.my_page {
+    background-image: url('/../assets/img/my_page.gif');
+    background-size: cover;
+    background-attachment: fixed;
+    height: -webkit-fill-available;
+}
 /* footer 하단 고정 [S] */
 html, body {
     margin: 0;
