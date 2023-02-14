@@ -11,19 +11,23 @@
 
 </head>
 <body>
+<fieldset>
+    <div th:if="${#request.getParameter('expire')}" style="color: red; text-align: center;">
+        새로운 곳에서 로그인이 시도되었습니다.
+    </div>
 <div id="container" class="main_container">
     <div th:if="${param.error}" class="form-group" style="text-align: center; line-height: 10px;">
         <span th:text="${exception}" class="alert alert-danger" style="position: absolute;text-align:center; top:10%; width: 800px; margin: -30px; transform: translate(-50%, -50%)"></span>
     </div>
+
     <div style="padding: 20px;"></div>
     <div class="login_container">
         <div class="form_container">
-            <form name="login_form" th:action="@{/login_proc}" method="post">
+            <form name="login_form" th:action="@{/login_proc}" th:method="post">
                 <input type="hidden" th:value="secret" name="secret_key" />
-                <div th:if="${#request.getParameter('expire')}" style="color: red; text-align: center;">
-                    새로운 곳에서 로그인이 시도되었습니다.
-                </div>
+
                 <div class="form_title_div">
+
                     <p class="form_title_p">로그인</p>
                 </div>
 
@@ -58,6 +62,6 @@
         </div>
     </div>
 </div>
-
+</fieldset>
 </body>
 </html>

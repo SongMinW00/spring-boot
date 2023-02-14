@@ -3,9 +3,12 @@ import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.UserService;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
 import com.example.demo.domain.entity.user.Member;
+import com.example.demo.security.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,8 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    @Autowired
+    private UserDetailsService userDetailsService;
     @Transactional
     @Override
     public void joinUser(SignUpRequestDTO signUpRequestDTO) {
@@ -56,8 +61,12 @@ public class UserServiceImpl implements UserService {
     public void accessDenied(String exception, Model model, HttpServletResponse response) throws IOException {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Member member = (Member) authentication.getPrincipal();
-            model.addAttribute("username", member.getUsername());
+//            Member member = (Member) authentication.getPrincipal();
+            String username = (String) authentication.getPrincipal();
+
+            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+
+            model.addAttribute("username", userDetails.getMember().getUsername());
             model.addAttribute("exception", exception);
         } catch (ClassCastException e){
             response.setContentType("text/html; charset=UTF-8");

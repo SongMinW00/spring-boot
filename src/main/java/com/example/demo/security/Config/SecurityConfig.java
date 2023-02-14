@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login*", "/login/**").permitAll()
+                .antMatchers("/", "/register", "/login/**").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -118,7 +118,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
-
         ;
     }
 
