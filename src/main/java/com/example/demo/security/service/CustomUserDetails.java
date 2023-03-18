@@ -11,6 +11,10 @@ public class CustomUserDetails extends User {
         /* 나중에 Member 객체를 참조할 수 있도록 구현 */
         this.member = member;
     }
+//    public CustomUserDetails(Member member){
+//        super(member.getUsername(), member.getPassword(), authorities);
+//        this.member = member;
+//    }
     @Override
     public String getPassword() {
         return member.getPassword();
@@ -30,7 +34,7 @@ public class CustomUserDetails extends User {
     //계정이 잠겨있는지 않았는지 리턴. (true:잠기지 않음)
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return member.isAccountNonLocked();
     }
 
     //비밀번호가 마료되지 않았는지 리턴한다. (true:만료안됨)

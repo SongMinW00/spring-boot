@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 <head>
     <meta charset="utf-8" />
     <title>접근거부페이지</title>
@@ -14,7 +14,7 @@
     <!--/* css */-->
     <link href="/css/styles.css" rel="stylesheet" />
 </head>
-<div th:replace="fragments/header::header"></div>
+<div th:replace="~{fragments/header::header}"></div>
 <body id="page-top">
 <div class="deny_page" id="services">
 </div>
@@ -34,7 +34,7 @@
 </div>
 
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
-<div th:replace="fragments/footer::footer"></div>
-<script src="/js/scripts.js"></script>
+<div th:replace="~{fragments/footer::footer}"></div>
+<script src="../js/scripts.js"></script>
 </body>
 </html>

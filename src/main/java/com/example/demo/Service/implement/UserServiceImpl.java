@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDetailsService userDetailsService;
     @Transactional
+
     @Override
     public void joinUser(SignUpRequestDTO signUpRequestDTO) {
         //비밀번호 암호화해서 회원가입
@@ -36,8 +37,13 @@ public class UserServiceImpl implements UserService {
                 .username(signUpRequestDTO.getUsername())
                 .password(passwordEncoder.encode(signUpRequestDTO.getPassword()))
                 .email(signUpRequestDTO.getEmail())
+                .accountNonLocked(true)
+                .role("ROLE_USER")
+                .failCount(0)
+                .enabled(true)
+                .lastLogin(new Date())
                 .build();
-        signUpRequestDTO.setRole("ROLE_USER");
+
         userRepository.save(member);
     }
     @Override
@@ -87,6 +93,11 @@ public class UserServiceImpl implements UserService {
         }
         return validatorResult;
     }
+//
+//    @Override
+//    public Member getByUsername(String username) {
+//        return userRepository.getMemberByUsername(username);
+//    }
 }
 
 

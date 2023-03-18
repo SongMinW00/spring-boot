@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> member = userRepository.findByUsername(username);
-        if (!member.isPresent()) {     /* Data Base에 SignIn 요청 이용자 ID가 존재하지 않을 경우 */
+        if (member.isEmpty()) {     /* Data Base에 SignIn 요청 이용자 ID가 존재하지 않을 경우 */
             throw new UsernameNotFoundException("해당 이용자가 존재하지 않아요 🥲");
         }
         if(Objects.equals(member.get().getUsername(), "admin")){

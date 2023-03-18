@@ -1,9 +1,13 @@
 package com.example.demo.domain.dto.request;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.util.Date;
 
 @Data   // Getter, Setter, ToString, EqualsAndHashCode와 @RequiredArgsConstructor
         // 를 합쳐놓은거
@@ -20,9 +24,13 @@ public class SignUpRequestDTO {
     @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식을 맞춰주세요.")
     @NotBlank(message = "이메일은 필수 입력값입니다.")
     private String email;
-
     private String role;
 
+    private int failCount;
+    private Date lockTime;
+    private Date latsLogin;
+    private boolean accountNonLocked;
+    private boolean enabled;
     public boolean isPwEqualToCheckPw(){
         return password.equals(password2);
     }

@@ -1,8 +1,9 @@
 <!--resources/templates/fragments/header.html-->
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <div th:fragment="header">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -10,25 +11,33 @@
             <a class="navbar-brand" href="#page-top">
                 <div class="user-wrap">
                     <div class="user-image">
-                        <img src="/assets/img/seamless-pattern-with-sports-accessories-dumbbells-kettlebells-barbells-balls-for-football-and-basketball-fitness-background-sport-games-equipment-vector-flat-illustration_501069-107.png" alt="..." />
+                        <img src="/assets/img/seamless-pattern-with-sports-accessories-dumbbells-kettlebells-barbells-balls-for-football-and-basketball-fitness-background-sport-games-equipment-vector-flat-illustration_501069-107.png"
+                             alt="..."/>
                     </div>
                     <div class="user-text">
                         <p>top</p>
                     </div>
                 </div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button th:onclick="|location.href='@{/}'|">로고</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 button
                 <i class="fas fa-bars ms-1"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/register}">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" sec:authentication="name" th:href="@{/user/my-page}" >님. 반갑습니다.</a> </li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" >로그아웃</a> </li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/config}">어드민</a></li>
+                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/register}">회원가입</a>
+                    </li>
+                    <li class="nav-item"><a sec:authorize="isAuthenticated()" sec:authentication="name" class="nav-link"
+                                            >님. 반갑습니다.</a></li>
+                    <li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link"
+                                            th:href="@{/logout}">로그아웃</a></li>
+                    <li class="nav-item"><a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link"
+                                            th:href="@{/admin/config}">어드민</a></li>
 
                 </ul>
 
@@ -36,14 +45,29 @@
             </div>
             <div class="dropdown">
 
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    MENU
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    메뉴
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" sec:authorize="isAuthenticated()" type="button" th:onclick="|location.href='@{/user/board_write}'|">운동꿀팁전수!</button></li>
-                    <li><button class="dropdown-item" type="button">요즘 HOT한 운동</button></li>
-                    <li><button class="dropdown-item" type="button">너에게 딱맞는 운동</button></li>
-                    <li><button class="dropdown-item" type="button">운동 소개 및 꿀팁!</button></li>
+                    <li>
+                        <button class="dropdown-item" type="button"
+                                th:onclick="|location.href='@{/sports/sports_info}'|">운동정보
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button"
+                                th:onclick="|location.href='@{/sports/sports_reco}'|">추천운동
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" sec:authorize="isAuthenticated()" type="button"
+                                th:onclick="|location.href='@{/user/mypage}'|">마이페이지</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button"
+                                th:onclick="|location.href='@{/board/board}'|">자유게시판</button>
+                    </li>
                 </ul>
             </div>
         </div>
