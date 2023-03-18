@@ -1,4 +1,4 @@
-
+<!--메인페이지-->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -22,6 +22,7 @@
 <body id="page-top">
 
 
+
 <!-- Masthead-->
 <header class="masthead">
     <section class="fade-class" id="intro">
@@ -30,6 +31,7 @@
             <div class="search">
                 <input type="text" placeholder="궁금한 운동을 검색해봐">
             </div>
+            <button th:onclick="|location.href='@{sports/sports_search}'|">검색</button>
         </div>
     </section>
 </header>
@@ -59,12 +61,12 @@
             </div>
         </div>
     </section>
-
+    <button th:onclick="|location.href='@{/sports/sports_detail}'|">썸네일</button>
 </section>
 
-<div th:replace="fragments/header::header"></div>
+<div th:replace="~{fragments/header::header}"></div>
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
-<div th:replace="fragments/footer::footer"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
 <script src="/js/scripts.js"></script>
 </body>
 </html>

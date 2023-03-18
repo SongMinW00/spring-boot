@@ -6,32 +6,34 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 
 @EnableWebSecurity // 1
 @Configuration
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
+public class SecurityConfig { // 2
     @Autowired
     private FormAuthenticationDetailsSource formAuthenticationDetailsSource;
     /* 로그인 성공 핸들러 의존성 주입 */
@@ -59,27 +61,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
         return accessDeniedHandler;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /* 로그인 인증수행시 권한과 아이디 비밀번호등 일치하는지 검사 */
-        auth.authenticationProvider(authenticationProvider());
+    //    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        /* 로그인 인증수행시 권한과 아이디 비밀번호등 일치하는지 검사 */
+//        auth.authenticationProvider(authenticationProvider());
+//    }
+    @Bean
+    AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        /* 보안검사 필요없는거 여기다 추가 */
-        web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**", "/lib/**", "/template/content/base/**", "/template/error/**");
+
+    //    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        /* 보안검사 필요없는거 여기다 추가 */
+//        web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**", "/lib/**", "/template/content/base/**", "/template/error/**");
+//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/assets/**", "/lib/**");
     }
 
-    @Override
-    public void configure(final HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
-                .authorizeRequests()
-                .antMatchers("/", "/register", "/login/**").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .authorizeHttpRequests()
+                .requestMatchers("/", "/register", "/login/**", "/base/**", "/board/**", "/sports/**", "/error/**").permitAll()
+                .requestMatchers("/user/**").hasRole("USER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .maximumSessions(1)
@@ -117,8 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 2
                 .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler())
-        ;
+                .accessDeniedHandler(accessDeniedHandler());
+        return http.build();
     }
-
 }

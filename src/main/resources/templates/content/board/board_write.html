@@ -17,7 +17,7 @@
     <!--/* css */-->
     <link href="/css/styles.css" rel="stylesheet" />
 </head>
-<div th:replace="fragments/header::header"></div>
+<div th:replace="~{fragments/header::header}"></div>
 <body id="page-top">
 
 <!-- 글쓰는 공간 -->
@@ -47,13 +47,15 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Send message</button>
             </div>
+
         </div>
     </div>
 </div>
-
+<button th:onclick="|location.href='@{/board/board}'|">등록</button>
+<button th:onclick="|location.href='@{/board/board}'|">취소</button>
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
-<div th:replace="fragments/footer::footer"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
 
-<script src="../js/board_write.js"></script>
+<script src="../../js/board_write.js"></script>
 </body>
 </html>

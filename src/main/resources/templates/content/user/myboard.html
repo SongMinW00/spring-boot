@@ -1,10 +1,13 @@
-<!--관리자페이지-->
+<!--내작성글페이지-->
 
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
 <head>
     <meta charset="utf-8" />
-    <title>관리자 페이지</title>
+    <title>내작성글 페이지</title>
 
 
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -18,18 +21,24 @@
 </head>
 <div th:replace="~{fragments/header::header}"></div>
 <body id="page-top">
-
-<div class="admin_page">
+<div class="my_page"></div>
+<div class="container">
     <div class="row align-items-start">
-
         <div style="padding-top:300px;"  class="col">
             <div class="container text-center">
-                <h1 class="text-primary">여기는 관리자페이지 입니다.</h1>
+                <h1 class="text-primary">여기는 내작성글페이지 입니다.</h1>
             </div>
         </div>
     </div>
+
 </div>
+
+<button th:onclick="|location.href='@{/user/like_sports}'|">관심운동</button>
+<button th:onclick="|location.href='@{/user/myboard}'|">내작성글</button>
+<button th:onclick="|location.href='@{/user/myinfo}'|">개인정보관리</button>
+<!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
 <div th:replace="~{fragments/footer::footer}"></div>
-<script src="/js/scripts.js"></script>
+
+<script src="../../js/scripts.js"></script>
 </body>
 </html>
