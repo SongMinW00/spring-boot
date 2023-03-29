@@ -6,21 +6,20 @@
 >
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>운동추천-메인페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
     <!--/* css */-->
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet"/>
 </head>
 <body id="page-top">
-
 
 
 <!-- Masthead-->
@@ -30,8 +29,9 @@
             <div class="masthead-subheading">운동 추천 공유 함께해요!!</div>
             <div class="search">
                 <input type="text" placeholder="궁금한 운동을 검색해봐">
+                <button th:onclick="|location.href='@{sports/sports_search}'|" class="search_button">검색</button>
             </div>
-            <button th:onclick="|location.href='@{sports/sports_search}'|">검색</button>
+
         </div>
     </section>
 </header>
@@ -40,16 +40,72 @@
     <section class="fade-class">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase">가장 인기 있는 운동이 궁금해?</h2>
-                <h3 class="section-subheading text-muted">가장 조회수 높은 운동 종목 통계내는 API 사용</h3>
+                <h2 class="section-heading text-uppercase">인기 있는 운동</h2>
+                <a th:href="@{/sports/sports_detail}">
+                    <img src="/assets/img/babel.jpeg"
+                         alt="..."/>
+                </a>
+                <a th:href="@{/sports/sports_detail}">
+                    <img src="/assets/img/babel.jpeg"
+                         alt="..."/>
+                </a>
+                <a th:href="@{/sports/sports_detail}">
+                    <img src="/assets/img/babel.jpeg"
+                         alt="..."/>
+                </a>
+                <!--                <h3 class="section-subheading text-muted">가장 조회수 높은 운동 종목 통계내는 API 사용</h3>-->
             </div>
         </div>
     </section>
     <section class="fade-class">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase">가장 꿀팁이 많은 운동이 궁금해?</h2>
-                <h3 class="section-subheading text-muted">가장 관련 글이 많은 운동 통계내는 API 사용</h3>
+                <h2 class="section-heading text-uppercase">추천수가 가장 많은 게시글</h2>
+                <!-- 리스트 게시판 시작-->
+
+                <table class="sub_news" border="1" cellspacing="0" summary="게시판의 글제목 리스트">
+                    <caption>게시판 리스트</caption>
+                    <colgroup>
+                        <col>
+                        <col width="110">
+                        <col width="100">
+                        <col width="80">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">날짜</th>
+                        <th scope="col">조회수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="title">
+                            <a href="#">게시판 제목이 들어갑니다</a>
+                            <img width="13" height="12" class="pic" alt="첨부이미지" src="첨부파일 ic_pic.gif"> <a
+                                class="comment" href="#">[5]</a> <img width="10" height="9" class="new" alt="새글"
+                                                                      src="첨부파일/ic_new.gif">
+                        </td>
+                        <td class="name">글쓴이이름</td>
+                        <td class="date">2008/02/14</td>
+                        <td class="hit">1234</td>
+                    </tr>
+                    <tr class="reply">
+                        <td class="title" style="padding-left:30px;">
+                            <a href="#">블로그 개편 답글</a>
+                        </td>
+                        <td class="name">벤쿠버지사</td>
+                        <td class="date">2008/02/14</td>
+                        <td class="hit">1234</td>
+                    </tr>
+
+                    <!-- tr이 제목 1줄입니다 보일 list 갯수만큼 li반복합니다.-->
+                    </tbody>
+                </table>
+
+                <!-- 리스트 게시판 끝-->
+                <!--                <h3 class="section-subheading text-muted">가장 관련 글이 많은 운동 통계내는 API 사용</h3>-->
             </div>
         </div>
     </section>
@@ -61,7 +117,7 @@
             </div>
         </div>
     </section>
-    <button th:onclick="|location.href='@{/sports/sports_detail}'|">썸네일</button>
+
 </section>
 
 <div th:replace="~{fragments/header::header}"></div>

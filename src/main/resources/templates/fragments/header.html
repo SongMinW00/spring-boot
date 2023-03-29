@@ -8,18 +8,18 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="#page-top">
+            <a class="navbar-brand" th:href="@{/}">
                 <div class="user-wrap">
                     <div class="user-image">
-                        <img src="/assets/img/seamless-pattern-with-sports-accessories-dumbbells-kettlebells-barbells-balls-for-football-and-basketball-fitness-background-sport-games-equipment-vector-flat-illustration_501069-107.png"
+                        <img src="/assets/img/images.png"
                              alt="..."/>
                     </div>
                     <div class="user-text">
-                        <p>top</p>
+                        <p>홈</p>
                     </div>
                 </div>
             </a>
-            <button th:onclick="|location.href='@{/}'|">로고</button>
+<!--            <button th:onclick="|location.href='@{/}'|">로고</button>-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 button
@@ -28,15 +28,15 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+                    <li class="nav-item"><a class="nav-link" style="color: #66EAD1" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/register}">회원가입</a>
+                    <li class="nav-item"><a class="nav-link" style="color: #66EAD1" sec:authorize="isAnonymous()" th:href="@{/register}">회원가입</a>
                     </li>
-                    <li class="nav-item"><a sec:authorize="isAuthenticated()" sec:authentication="name" class="nav-link"
+                    <li class="nav-item"><a sec:authorize="isAuthenticated()" sec:authentication="name" class="nav-link" style="color: #66EAD1"
                                             >님. 반갑습니다.</a></li>
-                    <li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link"
+                    <li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link" style="color: #66EAD1"
                                             th:href="@{/logout}">로그아웃</a></li>
-                    <li class="nav-item"><a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link"
+                    <li class="nav-item"><a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" style="color: #66EAD1"
                                             th:href="@{/admin/config}">어드민</a></li>
 
                 </ul>

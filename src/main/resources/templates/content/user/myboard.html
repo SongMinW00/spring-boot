@@ -22,6 +22,21 @@
 <div th:replace="~{fragments/header::header}"></div>
 <body id="page-top">
 <div class="my_page"></div>
+<div class="row">
+    <div class="col-4" style="width: 200px;">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+               th:href="@{/user/myinfo_check}" role="tab" aria-controls="home">수정</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+               th:href="@{/user/like_sports}" role="tab" aria-controls="profile">관심운동</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+               th:href="@{/user/myboard}" role="tab" aria-controls="messages">내작성글</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+               th:href="@{/user/myinfo}" role="tab" aria-controls="settings">개인정보관리</a>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row align-items-start">
         <div style="padding-top:300px;"  class="col">
@@ -30,12 +45,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
-<button th:onclick="|location.href='@{/user/like_sports}'|">관심운동</button>
-<button th:onclick="|location.href='@{/user/myboard}'|">내작성글</button>
-<button th:onclick="|location.href='@{/user/myinfo}'|">개인정보관리</button>
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
 <div th:replace="~{fragments/footer::footer}"></div>
 

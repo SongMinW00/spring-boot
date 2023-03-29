@@ -1,0 +1,79 @@
+<!--<table xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>제목</th>-->
+<!--        <th>작성일시</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="question : ${questionList}">-->
+<!--        <td>-->
+<!--            <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.title}"></a>-->
+<!--        </td>-->
+<!--        <td th:text="${question.createDate}"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--운동정보상세페이지-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="utf-8" />
+    <title>질문리스트 페이지</title>
+
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!--/* css */-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<div th:replace="~{fragments/header::header}"></div>
+<body id="page-top">
+<div class="my_page"></div>
+<div class="container">
+    <div class="row align-items-start">
+        <div style="padding-top:300px;"  class="col">
+            <div class="container text-center">
+                <h1 class="text-primary">여기는 질문리스트페이 입니다.</h1>
+                <div class="container my-3">
+                    <table class="table">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성일시</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="question, loop : ${questionList}">
+                            <td th:text="${loop.count}"></td>
+                            <td>
+                                <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.title}"></a>
+                            </td>
+                            <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
+<div th:replace="~{fragments/footer::footer}"></div>
+
+<script src="../../js/scripts.js"></script>
+</body>
+</html>

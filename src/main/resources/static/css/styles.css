@@ -7719,6 +7719,7 @@ textarea.form-control-lg {
 .text-primary {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+  display: inline-block;
 }
 
 .text-secondary {
@@ -11383,7 +11384,7 @@ p {
   #mainNav .navbar-brand img {
     transition: height 0.3s ease-in-out;
     width: 100%;
-    height: 100px;
+    height: 70px;
     border-radius: 50px;
     object-fit: cover;
   }
@@ -11783,7 +11784,6 @@ section#contact form#contactForm :-ms-input-placeholder {
 
 .search {
   position: relative;
-
 }
 
 input {
@@ -11806,21 +11806,23 @@ input::placeholder {
     width: 100%;
     margin: 10px auto;
     position: relative;
+    border-radius: 50%;
 }
 
 .user-wrap img{
     width: 100%;
     vertical-align: middle;
+    border-radius: 50%;
 }
 
 .user-text{
     position: absolute;
-    top: 80%;
+    top: 70%;
     left: 50%;
     width: 100%;
     transform: translate( -50%, -50% );
     font-size: 10px;
-    color: #47E1A8;
+    color: black;
     text-align: center;
 }
 
@@ -11841,8 +11843,16 @@ input::placeholder {
 }
 
 .login_container{
-    width: 380px;
-    height: 520px;
+    width: 400px;
+    height: 620px;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 0px 20px #000;
+}
+
+.login_container2 {
+    width: 400px;
+    height: 500px;
     margin: auto;
     border-radius: 3px;
     box-shadow: 0px 0px 20px #000;
@@ -11866,13 +11876,27 @@ input::placeholder {
 }
 
 .form_input{
-    width: 98%;
+    width: 90%;
     height: 30px;
     border: 1px solid;
     border-radius: 3px;
     border-color: gray;
 }
 
+.form_input2 {
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: gray;
+}
+.form_input_email{
+    width: 80%;
+    height: 30px;
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: gray;
+}
 .form_item_id{
     color: gray;
 }
@@ -11946,4 +11970,55 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+.search_button{
+
+    height: 30px;
+    background-color: rgb(83, 154, 236);
+    border: 1px;
+    border-radius: 3px;
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.top-control{
+    width: 5%;
+    height: 44px;
+    top: 700px;
+    right: 0%;
+    position: fixed;
+}
+
+/* 게시판 리스트 목록 */
+.sub_news,.sub_news th,.sub_news td{border:0}
+.sub_news a{color:#383838;text-decoration:none}
+.sub_news{width:100%;border-bottom:1px solid #999;color:#666;font-size:12px;table-layout:fixed}
+.sub_news caption{display:none}
+.sub_news th{padding:5px 0 6px;border-top:solid 1px #999;border-bottom:solid 1px #b2b2b2;background-color:#f1f1f4;color:#333;font-weight:bold;line-height:20px;vertical-align:top}
+.sub_news td{padding:8px 0 9px;border-bottom:solid 1px #d2d2d2;text-align:center;line-height:18px;}
+.sub_news .date,.sub_news .hit{padding:0;font-family:Tahoma;font-size:11px;line-height:normal}
+.sub_news .title{text-align:left; padding-left:15px; font-size:13px;}
+.sub_news .title .pic,.sub_news .title .new{margin:0 0 2px;vertical-align:middle}
+.sub_news .title a.comment{padding:0;background:none;color:#f00;font-size:12px;font-weight:bold}
+.sub_news tr.reply .title a{padding-left:16px;background:url(/) 0 1px no-repeat}
+/* //게시판 리스트 목록 */
+
+/* 실선 */
+.two_1 {
+    display: block;
+    background-color: gray;
+}
+
+.list-group-item-action:hover {
+    background: #FFC803;
+}
+
+textarea {
+    width: 100%;
+}
+
+input[type=submit] {
+    margin-top:10px;
 }

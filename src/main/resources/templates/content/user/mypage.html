@@ -1,38 +1,55 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>마이페이지</title>
 
 
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
     <!--/* css */-->
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet"/>
 </head>
 <div th:replace=~{fragments/header::header}></div>
 <body id="page-top">
 
 
 <div class="my_page"></div>
-<div class="container">
-    <div class="row align-items-start">
-        <div style="padding-top:300px;"  class="col">
-            <div class="container text-center">
-                <h1 class="text-primary">여기는 MYPAGE 입니다.</h1>
-            </div>
+
+
+<div class="row">
+    <div class="col-4" style="width: 200px;">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+               th:href="@{/user/myinfo_check}" role="tab" aria-controls="home">수정</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+               th:href="@{/user/like_sports}" role="tab" aria-controls="profile">관심운동</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+               th:href="@{/user/myboard}" role="tab" aria-controls="messages">내작성글</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+               th:href="@{/user/myinfo}" role="tab" aria-controls="settings">개인정보관리</a>
         </div>
     </div>
-
 </div>
-<button th:onclick="|location.href='@{/user/myinfo_check}'|">수정</button>
-<button th:onclick="|location.href='@{/user/like_sports}'|">관심운동</button>
-<button th:onclick="|location.href='@{/user/myboard}'|">내작성글</button>
-<button th:onclick="|location.href='@{/user/myinfo}'|">개인정보관리</button>
+
+<div class="row align-items-start">
+    <div class="col">
+        <div class="container text-center" style="padding: 100px;">
+            <h1 class=" text-primary" sec:authentication="name"></h1><span>님. 안녕하세요🥳</span>
+            <button th:onclick="|location.href='@{/user/myinfo_check}'|" class="search_button">수정</button>
+            <div style="padding: 50px;">
+                <input type="text" placeholder="자기소개 작성란" autofocus="autofocus" style="border-radius: 30px; width: 200px;">
+            </div>
+            <hr style="border: solid 1px black;">
+        </div>
+    </div>
+</div>
+
+
 <div th:replace=~{fragments/footer::footer}></div>
 <script src="../../js/scripts.js"></script>
 </body>

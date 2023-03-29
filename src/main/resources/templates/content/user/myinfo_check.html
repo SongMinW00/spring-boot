@@ -6,36 +6,128 @@
 >
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>개인정보관리 페이지</title>
 
 
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
     <!--/* css */-->
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet"/>
 </head>
 <div th:replace="~{fragments/header::header}"></div>
 <body id="page-top">
 <div class="my_page"></div>
-<div class="container">
-    <div class="row align-items-start">
-        <div style="padding-top:300px;"  class="col">
-            <div class="container text-center">
-                <h1 class="text-primary">여기는 개인정보관리페이지(email,pw수정) 입니다.</h1>
+<div class="row">
+    <div class="col-4" style="width: 200px;">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+               th:href="@{/user/myinfo_check}" role="tab" aria-controls="home">수정</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+               th:href="@{/user/like_sports}" role="tab" aria-controls="profile">관심운동</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+               th:href="@{/user/myboard}" role="tab" aria-controls="messages">내작성글</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+               th:href="@{/user/myinfo}" role="tab" aria-controls="settings">개인정보관리</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="row align-items-start">
+    <div style="padding-top:100px;" class="col">
+        <div class="container text-center">
+            <div class="login_container">
+                <div class="form_container">
+                    <form name="register_form" th:action="@{/register}" method="post">
+                        <div class="form_title_div">
+                            <p class="form_title_p">회원 정보 수정</p>
+                        </div>
+                        <div>
+                            <div>
+                                <a class="form_item_id">이메일</a>
+                            </div>
+                            <div>
+                                <input type="text" name="email" id="email" placeholder="E-mail" class="form_input_email" required/>
+                                <button th:onclick="|location.href='@{sports/sports_search}'|" class="search_button">인증</button>
+                            </div>
+                            <div class="form_text_alert_padding">
+                                <div id="alert_email" class="form_text_alert">
+                                    <span th:text="${valid_email}" style="color : red;"></span>
+                                </div>
+
+                            </div>
+                            <div>
+                                <div>
+                                    <a class="form_item_id">인증번호 입력</a>
+                                </div>
+                                <div>
+                                    <input type="text" name="email_check" placeholder="인증번호 입력" id="email_check" class="form_input" required/>
+                                    <!-- 남은 시간 밑에 뜨게, 인증번호는 이메일에 떠야하는거 아닌가? -->
+                                </div>
+                                <div class="form_text_alert_padding">
+                                    <div id="alert_email_check" class="form_text_alert">
+                                        <span th:text="${valid_email_check}" style="color : green;"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <a class="form_item_id">비밀번호</a>
+                            </div>
+                            <div>
+                                <input type="password" name="password" id="password" placeholder="Enter password" class="form_input" required/>
+
+                            </div>
+                            <div class="form_text_alert_padding">
+                                <div id="alert_password" class="form_text_alert">
+                                    <span th:text="${valid_password}" style="color : brown;"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <p> </p>
+                        <div>
+                            <div>
+                                <a class="form_item_id">비밀번호 확인</a>
+                            </div>
+                            <div>
+                                <input type="password" name="password2" id="password2" placeholder="Check password" class="form_input" required/>
+
+                            </div>
+                            <div class="form_text_alert_padding">
+                                <div id="alert_password2" class="form_text_alert">
+                                    <span th:text="${valid_password2}" style="color : blue;"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div style="height: 10px;"></div>
+                        <div>
+                            <button type="submit" class="form_submit_button">수정완료</button>
+                        </div>
+                        <div>
+                            <p>
+
+                            </p>
+                        </div>
+                        <div>
+                            <button th:onclick="|location.href='@{/user/mypage}'|" class="form_submit_button">취소</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
-<button th:onclick="|location.href='@{/user/like_sports}'|">관심운동</button>
-<button th:onclick="|location.href='@{/user/myboard}'|">내작성글</button>
-<button th:onclick="|location.href='@{/user/myinfo}'|">개인정보관리</button>
+
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
 <div th:replace="~{fragments/footer::footer}"></div>
 
