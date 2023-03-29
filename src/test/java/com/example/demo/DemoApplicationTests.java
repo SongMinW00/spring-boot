@@ -4,6 +4,7 @@ import com.example.demo.domain.dao.answer.AnswerRepository;
 import com.example.demo.domain.dao.question.QuestionRepository;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
+import com.example.demo.domain.service.question.QuestionService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +19,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DemoApplicationTests {
 
     @Autowired
-    private QuestionRepository questionRepository;
-    @Autowired
-    private AnswerRepository answerRepository;
+    private QuestionService questionService;
+
 
     @Test
     void testJpa() {
-//        Optional<Question> oq = this.questionRepository.findById(1L);
-//        assertTrue(oq.isPresent());
-//        Question q = oq.get();
-//
-//        Answer a1 = Answer.builder()
-//                .body("네 자동으로 생성됩asdf니다.")
-//                .question(q)
-//                .build();
-//        this.answerRepository.save(a1);
-//
+        for(int i = 1; i <=300; i++){
+            String title = String.format("테스트 데이터입니다:[%03d]", i);
+            String body = "내용없음";
+            this.questionService.create(title, body);
+        }
+
 
     }
 
