@@ -30,4 +30,12 @@ public class QuestionService {
             throw new DataNotFoundException("question not found");
         }
     }
+
+    public void create(String title, String body) {
+        Question q = Question.builder()
+                .title(title)
+                .body(body)
+                .build();
+        this.questionRepository.save(q);
+    }
 }

@@ -1,17 +1,19 @@
 package com.example.demo.domain.controller.question;
 
 import com.example.demo.domain.dao.question.QuestionRepository;
+import com.example.demo.domain.dto.request.AnswerDTO;
 import com.example.demo.domain.dto.request.QuestionDTO;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.service.question.QuestionService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,9 +31,23 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id) {
+    public String detail(Model model, @PathVariable("id") Long id, AnswerDTO answerDTO) {
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "content/question/question_detail";
+    }
+
+    @PostMapping("/create")
+    public String questionCreate(@Valid QuestionDTO questionDTO, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "content/question/question_form";
+        }
+        /* 질문을 저장한다. */
+        this.questionService.create(questionDTO.getTitle(), questionDTO.getBody());
+        return "redirect:/question/list"; // 질문 저장후 질문 목록으로 이동
+    }
+    @GetMapping("/create")
+    public String questionCreate(QuestionDTO questionDTO) {
+        return "content/question/question_form";
     }
 }

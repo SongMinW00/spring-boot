@@ -84,7 +84,7 @@ public class SecurityConfig { // 2
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/register", "/login/**", "/base/**", "/board/**", "/sports/**", "/error/**", "/question/**").permitAll()
+                .requestMatchers("/", "/register", "/login/**", "/base/**", "/board/**", "/sports/**", "/error/**", "/question/**", "/answer/**").permitAll()
                 .requestMatchers("/content/user/**").hasRole("USER")
                 .requestMatchers("/admin/config").hasRole("ADMIN")
                 .anyRequest().authenticated()
