@@ -52,6 +52,7 @@ public class QuestionController {
         Member member = this.userService.getMember(principal.getName());
         /* 질문을 저장한다. */
         this.questionService.create(questionDTO.getTitle(), questionDTO.getBody(), member);
+
         return "redirect:/question/list"; // 질문 저장후 질문 목록으로 이동
     }
     @PreAuthorize("isAuthenticated()")

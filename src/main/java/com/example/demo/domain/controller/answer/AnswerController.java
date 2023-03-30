@@ -40,6 +40,6 @@ public class AnswerController {
         }
         // 답변을 저장
         this.answerService.create(question, answerDTO.getBody(), member);
-        return String.format("redirect:content/question/detail/%s", id);
+        return String.format("redirect:/question/detail/%s", id);
     }
 }

@@ -37,11 +37,11 @@ public class QuestionService {
         }
     }
 
-    public void create(String title, String body, Member member) {
+    public void create(String title, String body, Member author) {
         Question q = Question.builder()
                 .title(title)
                 .body(body)
-                .author(member)
+                .author(author)
                 .build();
         this.questionRepository.save(q);
     }
