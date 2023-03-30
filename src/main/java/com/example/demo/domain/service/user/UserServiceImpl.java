@@ -4,6 +4,7 @@ import com.example.demo.domain.dao.user.UserRepository;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
 import com.example.demo.domain.entity.user.Member;
 
+import com.example.demo.global.error.DataNotFoundException;
 import com.example.demo.global.security.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,14 @@ public class UserServiceImpl implements UserService {
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
         return validatorResult;
+    }
+    public Member getMember(String username){
+        Optional<Member> member = this.userRepository.findByUsername(username);
+        if(member.isPresent()){
+            return member.get();
+        } else {
+            throw new DataNotFoundException("member not found");
+        }
     }
 //
 //    @Override

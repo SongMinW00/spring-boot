@@ -2,6 +2,7 @@ package com.example.demo.domain.entity.question;
 
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.basetime.BaseTimeEntity;
+import com.example.demo.domain.entity.user.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
@@ -32,11 +33,14 @@ public class Question extends BaseTimeEntity {
     @JsonIgnoreProperties({"question"})
     private List<Answer> answerList;
 
+    @ManyToOne
+    private Member author;
 
-    public Question(Long id, String title, String body, List<Answer> answerList){
+    public Question(Long id, String title, String body, List<Answer> answerList, Member author){
         this.id = id;
         this.body = body;
         this.title = title;
         this.answerList = answerList;
+        this.author = author;
     }
 }

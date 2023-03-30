@@ -3,6 +3,7 @@ package com.example.demo.domain.service.question;
 import com.example.demo.domain.dao.question.QuestionRepository;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
+import com.example.demo.domain.entity.user.Member;
 import com.example.demo.global.error.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,11 @@ public class QuestionService {
         }
     }
 
-    public void create(String title, String body) {
+    public void create(String title, String body, Member member) {
         Question q = Question.builder()
                 .title(title)
                 .body(body)
+                .author(member)
                 .build();
         this.questionRepository.save(q);
     }

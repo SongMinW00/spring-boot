@@ -27,7 +27,7 @@ class DemoApplicationTests {
         for(int i = 1; i <=300; i++){
             String title = String.format("테스트 데이터입니다:[%03d]", i);
             String body = "내용없음";
-            this.questionService.create(title, body);
+            this.questionService.create(title, body, null);
         }
 
 
