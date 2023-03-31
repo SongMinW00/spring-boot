@@ -19,7 +19,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
 
-    public void create(Question question, String body, Member author){
+    public Answer create(Question question, String body, Member author){
         Answer answer;
         answer = Answer.builder()
                 .body(body)
@@ -27,6 +27,7 @@ public class AnswerService {
                 .author(author)
         .build();
         this.answerRepository.save(answer);
+        return answer;
     }
 
     public Answer getAnswer(Long id) {
