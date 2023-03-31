@@ -28,6 +28,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+	implementation 'org.commonmark:commonmark:0.21.0'
 }
 
 compileJava.options.encoding = 'UTF-8'
