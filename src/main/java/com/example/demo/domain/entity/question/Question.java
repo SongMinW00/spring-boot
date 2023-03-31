@@ -14,6 +14,7 @@ import org.hibernate.annotations.BatchSize;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -36,12 +37,15 @@ public class Question extends BaseTimeEntity {
     @ManyToOne
     private Member author;
 
-    public Question(Long id, String title, String body, List<Answer> answerList, Member author){
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Member> voter;
+    public Question(Long id, String title, String body, List<Answer> answerList, Member author, Set<Member> voter){
         this.id = id;
         this.body = body;
         this.title = title;
         this.answerList = answerList;
         this.author = author;
+        this.voter = voter;
     }
     public void update(String title, String body){
         this.title = title;

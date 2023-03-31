@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Getter
 @NoArgsConstructor
 @Builder
@@ -26,11 +28,14 @@ public class Answer extends BaseTimeEntity {
 
     @ManyToOne
     private Member author;
-    public Answer(Long id, String body, Question question, Member author){
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Member> voter;
+    public Answer(Long id, String body, Question question, Member author, Set<Member> voter){
         this.id = id;
         this.body = body;
         this.question = question;
         this.author = author;
+        this.voter = voter;
     }
 
     public void update(String body) {
