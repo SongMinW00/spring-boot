@@ -1,6 +1,7 @@
 package com.example.demo.domain.service.question;
 
 import com.example.demo.domain.dao.question.QuestionRepository;
+import com.example.demo.domain.dto.request.QuestionDTO;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
@@ -51,5 +52,13 @@ public class QuestionService {
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return this.questionRepository.findAll(pageable);
+    }
+
+    public void update(Question question) {
+        this.questionRepository.save(question);
+    }
+
+    public void delete(Question question) {
+        this.questionRepository.delete(question);
     }
 }

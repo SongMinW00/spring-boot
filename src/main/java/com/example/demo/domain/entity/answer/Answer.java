@@ -32,4 +32,8 @@ public class Answer extends BaseTimeEntity {
         this.question = question;
         this.author = author;
     }
+
+    public void update(String body) {
+        this.body = body;
+    }
 }

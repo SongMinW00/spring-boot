@@ -43,4 +43,8 @@ public class Question extends BaseTimeEntity {
         this.answerList = answerList;
         this.author = author;
     }
+    public void update(String title, String body){
+        this.title = title;
+        this.body = body;
+    }
 }

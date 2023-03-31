@@ -4,11 +4,13 @@ import com.example.demo.domain.dao.answer.AnswerRepository;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
+import com.example.demo.global.error.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,5 +27,22 @@ public class AnswerService {
                 .author(author)
         .build();
         this.answerRepository.save(answer);
+    }
+
+    public Answer getAnswer(Long id) {
+        Optional<Answer> answer = this.answerRepository.findById(id);
+        if (answer.isPresent()) {
+            return answer.get();
+        } else {
+            throw new DataNotFoundException("answer not found");
+        }
+    }
+
+    public void update(Answer answer) {
+        this.answerRepository.save(answer);
+    }
+
+    public void delete(Answer answer) {
+        this.answerRepository.delete(answer);
     }
 }
