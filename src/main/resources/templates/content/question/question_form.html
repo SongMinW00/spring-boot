@@ -8,6 +8,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>질문작성 페이지</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 
 
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
@@ -55,6 +57,10 @@
 <!--이거 레이아웃으로 쓰면됨. navbar 랑 푸터 설정할때 이거 두개 해당페이지에 추가-->
 <div th:replace="~{fragments/footer::footer}"></div>
 
+<script>
+    var easyMDE = new EasyMDE({ element: document.getElementById("body") });
+    </script>
 <script src="../../js/scripts.js"></script>
+
 </body>
 </html>
