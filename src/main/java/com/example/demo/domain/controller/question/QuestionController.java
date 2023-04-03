@@ -3,6 +3,7 @@ package com.example.demo.domain.controller.question;
 import com.example.demo.domain.dao.question.QuestionRepository;
 import com.example.demo.domain.dto.request.AnswerDTO;
 import com.example.demo.domain.dto.request.QuestionDTO;
+import com.example.demo.domain.dto.request.SignUpRequestDTO;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
@@ -49,11 +50,11 @@ public class QuestionController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String questionCreate(@Valid QuestionDTO questionDTO, BindingResult bindingResult, Principal principal) {
+    public String questionCreate(@Valid QuestionDTO questionDTO, BindingResult bindingResult, Principal principal, SignUpRequestDTO signUpRequestDTO) {
         if (bindingResult.hasErrors()) {
             return "content/question/question_form";
         }
-        Member member = this.userService.getMember(principal.getName());
+        Member member = this.userService.getMember(principal.getName(), signUpRequestDTO.getEmail());
         /* 질문을 저장한다. */
         this.questionService.create(questionDTO.getTitle(), questionDTO.getBody(), member);
 
@@ -107,9 +108,9 @@ public class QuestionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
-    public String questionVote(Principal principal, @PathVariable("id") Long id) {
+    public String questionVote(Principal principal, @PathVariable("id") Long id, SignUpRequestDTO signUpRequestDTO) {
         Question question = this.questionService.getQuestion(id);
-        Member member = this.userService.getMember(principal.getName());
+        Member member = this.userService.getMember(principal.getName(), signUpRequestDTO.getEmail());
         this.questionService.vote(question, member);
         return String.format("redirect:/question/detail/%s", id);
     }

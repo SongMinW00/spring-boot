@@ -1,5 +1,6 @@
 package com.example.demo.global.security.config;
 
+import com.example.demo.domain.service.user.CustomOAuth2UserService;
 import com.example.demo.global.common.FormAuthenticationDetailsSource;
 import com.example.demo.global.security.handler.CustomAccessDeniedHandler;
 import com.example.demo.global.security.handler.CustomAuthenticationFailureHandler;
@@ -48,6 +49,8 @@ public class SecurityConfig { // 2
     /* 로그인 실패 핸들러 의존성 주입 */
     @Autowired
     private CustomAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     /* 시큐리티가 로그인 과정에서 password를 가로챌때 어떤 해쉬로 암호화 했는지 확인 */
@@ -129,6 +132,12 @@ public class SecurityConfig { // 2
                         response.sendRedirect("content/base/login");
                     }
                 }).deleteCookies("remember-me", "JSESSIONID")
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
                 .permitAll()
                 .and()
                 .exceptionHandling()

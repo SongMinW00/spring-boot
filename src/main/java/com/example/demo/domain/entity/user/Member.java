@@ -21,6 +21,7 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    private String name;
     private String password;
     private String email;
     private String role;
@@ -32,8 +33,22 @@ public class Member extends BaseTimeEntity {
     private Date lockTime;
 
     private Date lastLogin;
+
+    private String provider;
+    private String providerId;
+
+
+    public Member(String username, String password, String email, String role, String provider, String providerId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
+
     @Builder
-    public Member (Long id, String username, String password, String email, int failCount, boolean accountNonLocked, String role, boolean enabled, Date lockTime, Date lastLogin) {
+    public Member(Long id, String username, String password, String email, int failCount, boolean accountNonLocked, String role, boolean enabled, Date lockTime, Date lastLogin, String provider, String providerId) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -44,8 +59,25 @@ public class Member extends BaseTimeEntity {
         this.enabled = enabled;
         this.lockTime = lockTime;
         this.lastLogin = lastLogin;
+        this.provider = provider;
+        this.providerId = providerId;
     }
+
+
+
     public String getUsername() {
         return username;
+    }
+
+    /* 회원정보 수정을 위한 set method*/
+    public void modify(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Member update(String name, String email) {
+        this.name = name;
+        this.email = email;
+        return this;
     }
 }

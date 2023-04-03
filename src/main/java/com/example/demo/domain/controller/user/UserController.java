@@ -1,10 +1,12 @@
 package com.example.demo.domain.controller.user;
 
+import com.example.demo.domain.dto.request.SessionUser;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
 
 import com.example.demo.domain.service.user.UserService;
 import com.example.demo.global.security.validate.CheckEmailValidator;
 import com.example.demo.global.security.validate.CheckUsernameValidator;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,7 +92,6 @@ public class UserController {
                         Model model, HttpServletRequest request) {
         /* 로그인 수행시 에러메시지, 오류 예외, 보여질 모델을 매개변수로 설정 */
         model.addAttribute("request", request);
-
         userService.login(error, exception, model);
         return "content/base/login";
     }
@@ -100,7 +101,7 @@ public class UserController {
 
         userService.logout(request, response);
 
-        return "content/base/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/user/like_sports")
@@ -128,11 +129,9 @@ public class UserController {
     public String myPage() {
         return "content/user/mypage";
     }
-//    @GetMapping("/list")
-//    public String list(Model model){
-//
-//        List<UserVo> users = userService.findMenbers();
-//        model.addAttribute("users", users);
-//        return "content/list";
-//    }
+/*    @GetMapping("/auth/kakao/callback")
+    public String kakaoCallback(String code) {
+        // POST 방식으로 key=value 데이터를 요청 (카카오톡으로)
+
+    }*/
 }

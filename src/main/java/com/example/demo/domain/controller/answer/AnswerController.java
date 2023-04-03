@@ -2,6 +2,7 @@ package com.example.demo.domain.controller.answer;
 
 import com.example.demo.domain.dto.request.AnswerDTO;
 import com.example.demo.domain.dto.request.QuestionDTO;
+import com.example.demo.domain.dto.request.SignUpRequestDTO;
 import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
@@ -30,9 +31,9 @@ public class AnswerController {
     private final UserServiceImpl userService;
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String createAnswer(Model model, @PathVariable("id") Long id, @Valid AnswerDTO answerDTO, BindingResult bindingResult, Principal principal){
+    public String createAnswer(Model model, @PathVariable("id") Long id, @Valid AnswerDTO answerDTO, BindingResult bindingResult, Principal principal, SignUpRequestDTO signUpRequestDTO){
         Question question = this.questionService.getQuestion(id);
-        Member member = this.userService.getMember(principal.getName());
+        Member member = this.userService.getMember(principal.getName(), signUpRequestDTO.getEmail());
         if(bindingResult.hasErrors()){
             model.addAttribute("question", question);
             return "content/question/question_detail";
@@ -84,9 +85,9 @@ public class AnswerController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
-    public String answerVote(Principal principal, @PathVariable("id") Long id) {
+    public String answerVote(Principal principal, @PathVariable("id") Long id, SignUpRequestDTO signUpRequestDTO) {
         Answer answer = this.answerService.getAnswer(id);
-        Member member = this.userService.getMember(principal.getName());
+        Member member = this.userService.getMember(principal.getName(), signUpRequestDTO.getEmail());
         this.answerService.vote(answer, member);
         return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
     }

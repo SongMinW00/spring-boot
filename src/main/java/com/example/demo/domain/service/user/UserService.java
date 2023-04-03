@@ -15,9 +15,4 @@ public interface UserService {
     void login(String error, String exception, Model model);
     void accessDenied(String exception, Model model, HttpServletResponse response) throws IOException;
     Map<String, String> validateHandling(Errors errors);
-//    void increaseFailedAttempts(SignUpRequestDTO signUpRequestDTO);
-//    void resetFailedAttempts(String username);
-//    void lock(SignUpRequestDTO signUpRequestDTO);
-//    boolean unlockWhenTimeExpired(SignUpRequestDTO signUpRequestDTO);
-//    Member getByUsername(String username);
 }

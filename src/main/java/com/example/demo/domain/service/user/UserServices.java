@@ -13,7 +13,7 @@ public class UserServices {
     @Autowired
     private final UserRepository userRepository;
 
-    public static final int MAX_FAILED_ATTEMPTS = 3;
+    public static final int MAX_FAILED_ATTEMPTS = 5;
     private static final long LOCK_TIME_DURATION = 30; //24hours
 
     public UserServices(UserRepository userRepository) {

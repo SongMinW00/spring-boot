@@ -95,26 +95,18 @@ public class UserServiceImpl implements UserService {
         }
         return validatorResult;
     }
-    public Member getMember(String username){
+    public Member getMember(String username, String email){
         Optional<Member> member = this.userRepository.findByUsername(username);
+        Optional<Member> oAuthMember = this.userRepository.findByEmail(email);
+        if (oAuthMember.isPresent()){
+            return oAuthMember.get();
+        }
         if(member.isPresent()){
             return member.get();
-        } else {
+        }
+
+        else {
             throw new DataNotFoundException("member not found");
         }
     }
-//
-//    @Override
-//    public Member getByUsername(String username) {
-//        return userRepository.getMemberByUsername(username);
-//    }
 }
-
-
-
-//    public List<UserVo> findMenbers(){
-//        return repository.findAll();
-//    }
-//    /*회원가입 시 유효성 체크*/
-//
-//}

@@ -16,7 +16,6 @@ public class QuestionDTO {
     private String title;
     @NotEmpty(message = "내용은 필수항목입니다.🥵")
     private String body;
-
     private List<Answer> answerList;
 
 }

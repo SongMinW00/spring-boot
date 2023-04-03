@@ -32,6 +32,10 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" style="color: #66EAD1" sec:authorize="isAnonymous()" th:href="@{/register}">회원가입</a>
                     </li>
+                    <li>
+                        <a href="/oauth2/authorization/google" sec:authorize="isAnonymous()">
+                            <img src="/assets/img/googleLoginButton.png" height="38px"></a>
+                    </li>
                     <li class="nav-item"><a sec:authorize="isAuthenticated()" sec:authentication="name" class="nav-link" style="color: #66EAD1"
                                             >님. 반갑습니다.</a></li>
                     <li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link" style="color: #66EAD1"

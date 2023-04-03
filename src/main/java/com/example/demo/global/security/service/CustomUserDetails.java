@@ -1,20 +1,38 @@
 package com.example.demo.global.security.service;
 import com.example.demo.domain.entity.user.Member;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
 import java.util.Collection;
-public class CustomUserDetails extends User {
+import java.util.Map;
+import java.util.Objects;
+
+public class CustomUserDetails extends User implements OAuth2User {
     private final Member member; /* 나중에 Member 객체를 참조할 수 있도록 구현 */
+    private Map<String, Object> attributes;
+    public CustomUserDetails(Member member, Map<String, Object> attributes, Collection<? extends GrantedAuthority> authorities) {
+        super(member.getUsername(), member.getPassword(), authorities);
+        this.member = member;
+        this.attributes = attributes;
+    }
     public CustomUserDetails(Member member, Collection<? extends GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);
         /* 나중에 Member 객체를 참조할 수 있도록 구현 */
         this.member = member;
     }
-//    public CustomUserDetails(Member member){
-//        super(member.getUsername(), member.getPassword(), authorities);
-//        this.member = member;
-//    }
+
+
+    @Override
+    public Map<String, Object> getAttributes(){
+        return attributes;
+    }
+    @Override
+    public String getName() {
+        return null;
+    }
     @Override
     public String getPassword() {
         return member.getPassword();

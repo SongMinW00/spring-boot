@@ -20,6 +20,9 @@ public interface UserRepository extends JpaRepository<Member, Long> {
    /* 데이터베이스에서 아이디 찾기 */
    Optional<Member> findByUsername(String username);
 
+   @Transactional
+   Optional<Member> findByEmail(String email);
+
 //   Member getMemberByUsername(String username);
    @Transactional
    @Query("UPDATE Member m SET m.failCount = ?1 WHERE m.username = ?2")
