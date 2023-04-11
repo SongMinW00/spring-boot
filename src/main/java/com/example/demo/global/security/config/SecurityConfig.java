@@ -6,12 +6,14 @@ import com.example.demo.global.security.handler.CustomAccessDeniedHandler;
 import com.example.demo.global.security.handler.CustomAuthenticationFailureHandler;
 import com.example.demo.global.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.demo.global.security.provider.CustomAuthenticationProvider;
+import com.example.demo.global.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,8 +51,11 @@ public class SecurityConfig { // 2
     /* 로그인 실패 핸들러 의존성 주입 */
     @Autowired
     private CustomAuthenticationFailureHandler authenticationFailureHandler;
+    /* OAuth 로그인을 하기위해서 CustomOAuth2UserService 의존성 주입 */
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     /* 시큐리티가 로그인 과정에서 password를 가로챌때 어떤 해쉬로 암호화 했는지 확인 */
@@ -69,12 +74,6 @@ public class SecurityConfig { // 2
         accessDeniedHandler.setErrorPage("/denied");
         return accessDeniedHandler;
     }
-
-    //    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        /* 로그인 인증수행시 권한과 아이디 비밀번호등 일치하는지 검사 */
-//        auth.authenticationProvider(authenticationProvider());
-//    }
     @Bean
     AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -89,6 +88,7 @@ public class SecurityConfig { // 2
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
+                .userDetailsService(customUserDetailsService)
                 .authorizeHttpRequests()
                 .requestMatchers("/", "/register", "/login/**", "/base/**", "/board/**", "/sports/**", "/error/**", "/question/**", "/answer/**").permitAll()
                 .requestMatchers("/content/user/**").hasRole("USER")
@@ -133,10 +133,10 @@ public class SecurityConfig { // 2
                     }
                 }).deleteCookies("remember-me", "JSESSIONID")
                 .and()
-                .oauth2Login()
-                .loginPage("/login")
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
+                .oauth2Login()          // oauth 로그인위해 Spring Security 설정
+                .loginPage("/login")    // 기본 로그인 페이지를 /login 으로 설정(하지만 눈에 띄기 쉽게 메인페이지에 구현)
+                .userInfoEndpoint()     // oauth 관련 정보들을 가져오는 설정
+                .userService(customOAuth2UserService) // 내 데이터베이스에 넣기 위해 가공하는 과정
                 .and()
                 .permitAll()
                 .and()

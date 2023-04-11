@@ -42,6 +42,11 @@ public interface UserRepository extends JpaRepository<Member, Long> {
    @Modifying
    void unLocked(String username, boolean accountNonLocked, Date lockTime, int failCount);
 
+   @Transactional
+   @Query(value = "UPDATE Member m SET m.password = ?, m.email = ? WHERE m.id = ?", nativeQuery = true)
+   @Modifying
+   void update(String password, String email, Long id);
+
 
 }
 // Spring automatically implements this repository interface in a bean that has the same name (with a change in the case == it is called userRepository).

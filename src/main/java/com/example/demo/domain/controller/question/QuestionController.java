@@ -9,6 +9,7 @@ import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
 import com.example.demo.domain.service.question.QuestionService;
 import com.example.demo.domain.service.user.UserServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 
@@ -69,10 +72,13 @@ public class QuestionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String questionModify(QuestionDTO questionDTO, @PathVariable("id") Long id, Principal principal) {
+    public String questionModify(QuestionDTO questionDTO, @PathVariable("id") Long id, Principal principal, HttpServletResponse response) throws IOException {
         Question question = this.questionService.getQuestion(id);
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('수정권한이 없습니다.');history.go(-1);</script>");
+            out.flush();
         }
         questionDTO.setTitle(question.getTitle());
         questionDTO.setBody(question.getBody());
@@ -80,15 +86,19 @@ public class QuestionController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify/{id}")
-    public String questionModify(@Valid QuestionDTO questionDTO, BindingResult bindingResult,
-                                 Principal principal, @PathVariable("id") Long id) {
+    @PostMapping("/modify/{id}")    // {id} 주소로 파라미터를 전송받을수 있음
+    public String questionModify(@Valid QuestionDTO questionDTO, BindingResult bindingResult, HttpServletResponse response,
+                                 Principal principal, @PathVariable("id") Long id) throws IOException {
         if (bindingResult.hasErrors()) {
             return "content/question/question_form";
         }
         Question question = this.questionService.getQuestion(id);
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('수정권한이 없습니다.');history.go(-1);</script>");
+            out.flush();
+            return "redirect:/user/mypage";
         }
         question.update(questionDTO.getTitle(), questionDTO.getBody());
         questionService.update(question);

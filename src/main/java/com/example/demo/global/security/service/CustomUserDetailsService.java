@@ -19,19 +19,21 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> member = userRepository.findByUsername(username);
-        if (member.isEmpty()) {     /* Data Base에 SignIn 요청 이용자 ID가 존재하지 않을 경우 */
+        Member member = userRepository.getMemberByUsername(username);
+        Optional<Member> memberOptional = userRepository.findByUsername(username);
+        if (member == null) {     /* Data Base에 SignIn 요청 이용자 ID가 존재하지 않을 경우 */
             throw new UsernameNotFoundException("해당 이용자가 존재하지 않아요 🥲");
         }
-        if(Objects.equals(member.get().getUsername(), "admin")){
-            Member result = member.get();
+
+        if(memberOptional.isEmpty()) {
+            throw new UsernameNotFoundException("해당 이용자가 존재하지 않아요 🥲");
+        }
+        if(Objects.equals(member.getUsername(), "admin")){
+            Member result = memberOptional.get();
             List<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             return new CustomUserDetails(result, roles);
         }
-        Member result = member.get();
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return new CustomUserDetails(result, roles);
+        return new CustomUserDetails(member);
     }
 }

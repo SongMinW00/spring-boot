@@ -8,6 +8,8 @@ import com.example.demo.global.error.DataNotFoundException;
 import com.example.demo.global.security.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Transactional
 
     @Override
@@ -48,6 +51,22 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(member);
     }
+    @Transactional  // 영속화를 위해. select를 통해 db로 부터 가져오고 이것을 Transactional을 통해 영속화 시켜주면 데이터를 변경시켰을때 자동으로 DB에 update문을 날려준다.
+    @Override
+    public void modify(Member member) {
+        member = Member.builder()
+                .id(member.getId())
+                .password(passwordEncoder.encode(member.getPassword()))
+                .email(member.getEmail())
+                .build();
+
+        this.userRepository.update(member.getPassword(), member.getEmail(), member.getId());
+//        persistance.setEmail(member.getEmail());
+
+        // 회원 수정 함수 종료시 서비스 종료, 트랜잭션 종료 시키고 커밋이 자동으로 된다.
+        // 영속화된 persistence 객체의 변화가 감지되면 더티체킹을 하여 update 문을 날려준다.
+    }
+
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         /* Logout 하려는 이용자 정보가 담긴 인증 객체 가져오기 */
@@ -107,6 +126,16 @@ public class UserServiceImpl implements UserService {
 
         else {
             throw new DataNotFoundException("member not found");
+        }
+    }
+
+    public Member getMember(Long id){
+        Optional<Member> member = this.userRepository.findById(id);
+        if(member.isPresent()) {
+            return member.get();
+        }
+        else {
+            throw new DataNotFoundException("member dis-match");
         }
     }
 }

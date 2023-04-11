@@ -70,9 +70,9 @@ public class Member extends BaseTimeEntity {
     }
 
     /* 회원정보 수정을 위한 set method*/
-    public void modify(String username, String password) {
-        this.username = username;
+    public void modify(String password, String email) {
         this.password = password;
+        this.email = email;
     }
 
     public Member update(String name, String email) {

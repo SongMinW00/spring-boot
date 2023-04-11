@@ -35,7 +35,8 @@
                         <div class="card-body">
                             <div class="card-text" th:utext="${@commonUtil.markdown(question.body)}"></div>
                             <div class="d-flex justify-content-end">
-                                <div th:if="${question.updateDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                                <div th:if="${question.updateDate != null}"
+                                     class="badge bg-light text-dark p-2 text-start mx-3">
                                     <div class="mb-2">modified at</div>
                                     <div th:text="${#temporals.format(question.updateDate, 'yyyy-MM-dd HH:mm')}"></div>
                                 </div>
@@ -51,7 +52,8 @@
                             <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
                                th:data-uri="@{|/question/vote/${question.id}|}">
                                 추천
-                                <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+                                <span class="badge rounded-pill bg-success"
+                                      th:text="${#lists.size(question.voter)}"></span>
                             </a>
                             <a th:href="@{|/question/modify/${question.id}|}"
                                class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
@@ -72,7 +74,8 @@
                         <div class="card-body">
                             <div class="card-text" th:utext="${@commonUtil.markdown(answer.body)}"></div>
                             <div class="d-flex justify-content-end">
-                                <div th:if="${answer.updateDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                                <div th:if="${answer.updateDate != null}"
+                                     class="badge bg-light text-dark p-2 text-start mx-3">
                                     <div class="mb-2">modified at</div>
                                     <div th:text="${#temporals.format(answer.updateDate, 'yyyy-MM-dd HH:mm')}"></div>
                                 </div>
@@ -87,7 +90,8 @@
                                 <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
                                    th:data-uri="@{|/answer/vote/${answer.id}|}">
                                     추천
-                                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+                                    <span class="badge rounded-pill bg-success"
+                                          th:text="${#lists.size(answer.voter)}"></span>
                                 </a>
                                 <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
                                    sec:authorize="isAuthenticated()"
@@ -143,9 +147,11 @@ Array.from(recommend_elements).forEach(function(element) {
         };
     });
 });
+
 </script>
 <script>
     var easyMDE = new EasyMDE({ element: document.getElementById("body") });
-    </script>
+
+</script>
 </body>
 </html>

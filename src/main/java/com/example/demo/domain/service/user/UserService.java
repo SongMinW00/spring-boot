@@ -15,4 +15,9 @@ public interface UserService {
     void login(String error, String exception, Model model);
     void accessDenied(String exception, Model model, HttpServletResponse response) throws IOException;
     Map<String, String> validateHandling(Errors errors);
+    Member getMember(String username, String email);
+
+    Member getMember(Long id);
+
+    void modify(Member member);
 }

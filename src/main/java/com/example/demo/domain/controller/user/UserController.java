@@ -1,13 +1,23 @@
 package com.example.demo.domain.controller.user;
 
-import com.example.demo.domain.dto.request.SessionUser;
+import com.example.demo.domain.dto.request.QuestionDTO;
+import com.example.demo.domain.dto.request.ResponseDTO;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
-
+import com.example.demo.domain.entity.user.Member;
 import com.example.demo.domain.service.user.UserService;
+import com.example.demo.global.security.service.CustomUserDetails;
 import com.example.demo.global.security.validate.CheckEmailValidator;
 import com.example.demo.global.security.validate.CheckUsernameValidator;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,9 +27,12 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.Principal;
 import java.util.*;
+
 @Controller // 이 클래스는 컨트롤러 기능을 수행한다고 정의
 @RequiredArgsConstructor
 public class UserController {
@@ -28,6 +41,9 @@ public class UserController {
     private final UserService userService;
     private final CheckUsernameValidator checkUsernameValidator;
     private final CheckEmailValidator checkEmailValidator;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     /* 커스텀 유효성 검증을 위해 추가 */
     @InitBinder // 특정 컨트롤러에서 바인딩 또는 검증 설정을 변경하고 싶을 때 사용
@@ -38,11 +54,42 @@ public class UserController {
     }
 
 
-
     /* 회원가입페이지 매핑 */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
+    public String register(SignUpRequestDTO signUpRequestDTO) {
         return "content/base/register";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/user/updateForm", method = RequestMethod.GET)
+    public String infoCheck(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, SignUpRequestDTO signUpRequestDTO) {
+        Member member = this.userService.getMember(userDetails.getId());
+        if (userDetails != null) {
+            model.addAttribute("member", userDetails.getMember());
+        }
+        signUpRequestDTO.setUsername(member.getUsername());
+        signUpRequestDTO.setEmail(member.getEmail());
+        return "content/user/myinfo_check";
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/user/updateForm")
+    public String modify(@Valid SignUpRequestDTO signUpRequestDTO, BindingResult bindingResult, @AuthenticationPrincipal CustomUserDetails userDetails, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        Member member = this.userService.getMember(userDetails.getId());
+        member.modify(signUpRequestDTO.getPassword(), signUpRequestDTO.getEmail());
+        this.userService.modify(member);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>alert('수정되었습니다.');location.href('/login');</script>");
+        out.flush();
+        /** ========== 변경된 세션 등록 ========== **/
+        /* 1. 새로운 UsernamePasswordAuthenticationToken 생성하여 AuthenticationManager 을 이용해 등록 */
+
+        return "content/user/mypage";
     }
 
     /* 회원가입하고 회원가입 정보를 보호하기 위해 POST 매핑 */
@@ -51,6 +98,7 @@ public class UserController {
     public String joinUser(@Valid SignUpRequestDTO signUpRequestDTO, Errors errors, Model model, HttpServletResponse response, BindingResult bindingResult) throws IOException {
         // 만약 에러가 발생하면 회원가입 뷰 페이지에서 에러메시지 출력
         if (errors.hasErrors()) {
+
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             model.addAttribute("signUpRequestDTO", signUpRequestDTO);
 
@@ -105,33 +153,25 @@ public class UserController {
     }
 
     @GetMapping("/user/like_sports")
-    public String likeSports(){
+    public String likeSports() {
         return "content/user/like_sports";
     }
 
     @GetMapping("/user/myinfo")
-    public String myInfo(){
+    public String myInfo() {
         return "content/user/myinfo";
     }
 
-    @GetMapping("/user/myinfo_check")
-    public String infoCheck(){
-        return "content/user/myinfo_check";
-    }
 
     @GetMapping("/user/myboard")
-    public String myBoard(){
+    public String myBoard() {
         return "content/user/myboard";
     }
 
     /* 유저의 마이페이지 매핑 */
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/mypage")
     public String myPage() {
         return "content/user/mypage";
     }
-/*    @GetMapping("/auth/kakao/callback")
-    public String kakaoCallback(String code) {
-        // POST 방식으로 key=value 데이터를 요청 (카카오톡으로)
-
-    }*/
 }

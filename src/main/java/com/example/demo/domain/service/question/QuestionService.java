@@ -69,23 +69,6 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
 
-//    private Specification<Question> search(String kw) {
-//        return new Specification<Question>() {
-//            @Override
-//            public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
-//                query.distinct(true);
-//                Join<Question, Member> u1 = q.join("author", JoinType.LEFT);
-//                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
-//                Join<Answer, Member> u2 = a.join("author", JoinType.LEFT);
-//                return cb.or(cb.like(q.get("title"), "%" + "%"), // 제목
-//                        cb.like(q.get("body"), "%" + kw + "%"), // 내용
-//                        cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
-//                        cb.like(a.get("body"), "%" + kw + "%"), // 답변 내용
-//                        cb.like(u2.get("username"), "%" + kw + "%")); // 답변 작성자
-//            }
-//        };
-//    }
-
     public Page<Question> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));

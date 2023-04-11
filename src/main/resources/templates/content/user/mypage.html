@@ -25,7 +25,7 @@
     <div class="col-4" style="width: 200px;">
         <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
-               th:href="@{/user/myinfo_check}" role="tab" aria-controls="home">수정</a>
+               th:href="@{/user/updateForm}" role="tab" aria-controls="home">수정</a>
             <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
                th:href="@{/user/like_sports}" role="tab" aria-controls="profile">관심운동</a>
             <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
@@ -40,7 +40,8 @@
     <div class="col">
         <div class="container text-center" style="padding: 100px;">
             <h1 class=" text-primary" sec:authentication="name"></h1><span>님. 안녕하세요🥳</span>
-            <button th:onclick="|location.href='@{/user/myinfo_check}'|" class="search_button">수정</button>
+            이메일 : <h2 class="text-primary" sec:authentication="principal.email"></h2>
+            <button th:onclick="|location.href='@{/user/userForm}'|" class="search_button">수정</button>
             <div style="padding: 50px;">
                 <input type="text" placeholder="자기소개 작성란" autofocus="autofocus" style="border-radius: 30px; width: 200px;">
             </div>
