@@ -99,6 +99,13 @@ public class SecurityConfig { // 2
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
+                .headers()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://use.fontawesome.com https://cdn.jsdelivr.net https://cdn.startbootstrap.com" +
+                        " https://ajax.googleapis.com https://stackpath.bootstrapcdn.com")
+                .and()
+                .and()
                 .sessionManagement()
                 .maximumSessions(1)
                 .expiredUrl("/login?expire=true")

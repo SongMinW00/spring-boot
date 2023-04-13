@@ -74,12 +74,12 @@ public class QuestionController {
     @GetMapping("/modify/{id}")
     public String questionModify(QuestionDTO questionDTO, @PathVariable("id") Long id, Principal principal, HttpServletResponse response) throws IOException {
         Question question = this.questionService.getQuestion(id);
-        if (!question.getAuthor().getUsername().equals(principal.getName())) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('수정권한이 없습니다.');history.go(-1);</script>");
-            out.flush();
-        }
+//        if (!question.getAuthor().getUsername().equals(principal.getName())) {
+//            response.setContentType("text/html; charset=UTF-8");
+//            PrintWriter out = response.getWriter();
+//            out.println("<script>alert('수정권한이 없습니다.');history.go(-1);</script>");
+//            out.flush();
+//        }
         questionDTO.setTitle(question.getTitle());
         questionDTO.setBody(question.getBody());
         return "content/question/question_form";

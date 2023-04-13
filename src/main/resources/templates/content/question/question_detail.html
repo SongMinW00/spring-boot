@@ -8,6 +8,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>질문상세 페이지</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 
@@ -129,29 +130,7 @@
 <div th:replace="~{fragments/footer::footer}"></div>
 
 <script src="../../js/scripts.js"></script>
-<script type='text/javascript'>
-const delete_elements = document.getElementsByClassName("delete");
-Array.from(delete_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("정말로 삭제하시겠습니까?")) {
-            location.href = this.dataset.uri;
-        };
-    });
-});
+<script src="../../js/detail.js"></script>
 
-const recommend_elements = document.getElementsByClassName("recommend");
-Array.from(recommend_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("이 질문을 추천하시겠습니까?")) {
-            location.href = this.dataset.uri;
-        };
-    });
-});
-
-</script>
-<script>
-    var easyMDE = new EasyMDE({ element: document.getElementById("body") });
-
-</script>
 </body>
 </html>

@@ -37,7 +37,9 @@ public class Member extends BaseTimeEntity {
     private String provider;
     private String providerId;
 
-
+    public String getUsername() {
+        return username;
+    }
     public Member(String username, String password, String email, String role, String provider, String providerId) {
         this.username = username;
         this.password = password;
@@ -65,9 +67,7 @@ public class Member extends BaseTimeEntity {
 
 
 
-    public String getUsername() {
-        return username;
-    }
+
 
     /* 회원정보 수정을 위한 set method*/
     public void modify(String password, String email) {
