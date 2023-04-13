@@ -1,10 +1,6 @@
 package com.example.demo.domain.controller.home;
-
-import com.example.demo.domain.dto.request.SessionUser;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
     /* 메인페이지 매핑 */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(){
+    public String home() {
         return "content/base/main";
     }
+
     /* thymeleaf 예시 페이지 */
     @GetMapping("/thymeleaf/ex")
-    public String thymeleafExample(){
+    public String thymeleafExample() {
         return "thymeleafEx";
     }
 }

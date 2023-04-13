@@ -22,7 +22,6 @@ public class Answer extends BaseTimeEntity {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String body;
-
     @ManyToOne
     private Question question;
 

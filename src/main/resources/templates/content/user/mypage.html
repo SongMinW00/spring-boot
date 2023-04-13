@@ -45,6 +45,17 @@
             <div style="padding: 50px;">
                 <input type="text" placeholder="자기소개 작성란" autofocus="autofocus" style="border-radius: 30px; width: 200px;">
             </div>
+            <h1>프로필 업로드</h1>
+            <form th:action="@{/user/upload}" method="post" enctype="multipart/form-data">
+                <h4>단일 파일 업로드</h4>
+                <input type="file" name="file">
+
+                <h4>다중 파일 업로드</h4>
+                <input type="file" multiple="multiple" name="files">
+
+                <input type="submit"/>
+
+            </form>
             <hr style="border: solid 1px black;">
         </div>
     </div>
