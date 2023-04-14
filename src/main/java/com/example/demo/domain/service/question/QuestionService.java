@@ -1,25 +1,18 @@
 package com.example.demo.domain.service.question;
-
 import com.example.demo.domain.dao.question.QuestionRepository;
-import com.example.demo.domain.dto.request.QuestionDTO;
-import com.example.demo.domain.entity.answer.Answer;
 import com.example.demo.domain.entity.question.Question;
 import com.example.demo.domain.entity.user.Member;
 import com.example.demo.global.error.DataNotFoundException;
-import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 @Transactional

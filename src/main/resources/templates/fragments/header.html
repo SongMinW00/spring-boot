@@ -69,6 +69,10 @@
                                 th:onclick="|location.href='@{/user/mypage}'|">마이페이지</button>
                     </li>
                     <li>
+                        <button class="dropdown-item" sec:authorize="isAuthenticated()" type="button"
+                                th:onclick="|location.href='@{/question/list}'|">질문페이지</button>
+                    </li>
+                    <li>
                         <button class="dropdown-item" type="button"
                                 th:onclick="|location.href='@{/board/board}'|">자유게시판</button>
                     </li>
