@@ -40,18 +40,27 @@
     <div class="col">
         <div class="container text-center" style="padding: 100px;">
             <h1 class=" text-primary" sec:authentication="name"></h1><span>님. 안녕하세요🥳</span>
+            <h3>이미지 출력</h3>
+            <div th:each="imageFile : ${all} ">
+                <img th:src="|/fileupload/${imageFile.saveNm}|" width="150" height="150">
+                <p th:text="${imageFile.orgNm}"></p>
+            </div>
+            <h3>파일 다운로드</h3>
+            <div th:each="file : ${all}">
+                <a th:href="|/attach/${file.id}|" th:text="${file.orgNm}"></a>
+            </div>
             이메일 : <h2 class="text-primary" sec:authentication="principal.email"></h2>
             <button th:onclick="|location.href='@{/user/userForm}'|" class="search_button">수정</button>
             <div style="padding: 50px;">
                 <input type="text" placeholder="자기소개 작성란" autofocus="autofocus" style="border-radius: 30px; width: 200px;">
             </div>
             <h1>프로필 업로드</h1>
-            <form th:action="@{/user/upload}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/user/mypage}" method="post" enctype="multipart/form-data">
                 <h4>단일 파일 업로드</h4>
-                <input type="file" name="file">
-
-                <h4>다중 파일 업로드</h4>
-                <input type="file" multiple="multiple" name="files">
+                <input type="file" name="file" accept=".jpg, .png .jpeg">
+<!--                다중파일업로드시 사용-->
+<!--                <h4>다중 파일 업로드</h4>-->
+<!--                <input type="file" multiple="multiple" name="files">-->
 
                 <input type="submit"/>
 

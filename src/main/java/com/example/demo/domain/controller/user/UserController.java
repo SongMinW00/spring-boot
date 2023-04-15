@@ -1,23 +1,26 @@
 package com.example.demo.domain.controller.user;
 
-import com.example.demo.domain.dto.request.QuestionDTO;
-import com.example.demo.domain.dto.request.ResponseDTO;
 import com.example.demo.domain.dto.request.SignUpRequestDTO;
+import com.example.demo.domain.entity.file.FileEntity;
 import com.example.demo.domain.entity.user.Member;
+import com.example.demo.domain.service.file.FileService;
 import com.example.demo.domain.service.user.UserService;
 import com.example.demo.global.security.service.CustomUserDetails;
 import com.example.demo.global.security.validate.CheckEmailValidator;
 import com.example.demo.global.security.validate.CheckUsernameValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +30,13 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.*;
 
@@ -39,6 +46,7 @@ public class UserController {
     // 보통의 경우 변수는 private 으로, 함수는 public 으로 지정
     // final 이 붙으면 변수 초기화 후 변경 할 수가 없다.
     private final UserService userService;
+    private final FileService fileService;
     private final CheckUsernameValidator checkUsernameValidator;
     private final CheckEmailValidator checkEmailValidator;
 
@@ -171,7 +179,72 @@ public class UserController {
     /* 유저의 마이페이지 매핑 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/mypage")
-    public String myPage() {
+    public String myPage(FileEntity file, Model model) {
+        file = fileService.getId(13L);
+        model.addAttribute("file", file);
         return "content/user/mypage";
     }
+
+    @PostMapping("/user/mypage")
+    public void uploadFile(@RequestParam("file") MultipartFile file, Principal principal, SignUpRequestDTO signUpRequestDTO, HttpServletResponse response) throws IOException {
+        Member member = userService.getMember(principal.getName(), signUpRequestDTO.getEmail());
+        fileService.saveFile(file, member);
+        //다중파일 업로드시 사용
+//      , @RequestParam("files") List<MultipartFile> files
+//        for (MultipartFile multipartFile : files) {
+//            fileService.saveFile(multipartFile, member);
+//        }
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>alert('파일이 업로드 되었습니다.');location.replace('/user/mypage');</script>");
+        out.flush();
+    }
+
+    @GetMapping("/view")
+    public String view(Model model) {
+
+        List<FileEntity> files = fileService.findAll();
+        model.addAttribute("all",files);
+        return "view";
+    }
+
+
+    //   이미지 출력
+    @GetMapping("/fileupload/{savedNm}")
+    @ResponseBody
+    public Resource downloadImage(@PathVariable("savedNm") String savedNm, Model model) throws IOException{
+
+        FileEntity file = fileService.getByFileName(savedNm);
+
+        if(file == null) {
+            throw new IOException("파일이 존재하지 않음.");
+        }
+
+        return new UrlResource("file:" + file.getSavedPath());
+    }
+
+    // 첨부 파일 다운로드
+    @GetMapping("/attach/{id}")
+    public ResponseEntity<Resource> downloadAttach(@PathVariable Long id) throws MalformedURLException {
+
+        FileEntity file = fileService.getId(id);
+
+        if(file == null) {
+            throw new MalformedURLException("파일이 존재하지 않음.");
+        }
+
+        UrlResource resource = new UrlResource("file:" + file.getSavedPath());
+
+        String encodedFileName = UriUtils.encode(file.getOrgNm(), StandardCharsets.UTF_8);
+
+        // 파일 다운로드 대화상자가 뜨도록 하는 헤더를 설정해주는 것
+        // Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 준다.
+        String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource);
+    }
+
+
+
 }

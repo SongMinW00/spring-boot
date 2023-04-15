@@ -96,7 +96,7 @@ public class QuestionController {
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('수정권한이 없습니다.');history.go(-1);</script>");
+            out.println("<script>alert('수정권한이 없습니다.');location.replace('/question/list');</script>");
             out.flush();
             return "redirect:/user/mypage";
         }

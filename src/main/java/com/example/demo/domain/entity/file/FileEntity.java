@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
@@ -20,7 +21,6 @@ public class FileEntity {
     private String orgNm;
 
     private String savedNm;
-
     private String savedPath;
 
     @ManyToOne
